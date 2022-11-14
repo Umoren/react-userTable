@@ -4,6 +4,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Clone the repo
 
+```bash
+git clone https://github.com/Umoren/react-userTable.git
+```
+
 # Install Dependencies
 `yarn` or `npm install`
 

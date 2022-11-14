@@ -7,30 +7,24 @@ import { fetchUsers, updateUser } from '../store/actions/userAction';
 const TableContent = () => {
     const users = useSelector((state) => state.allUsers.users);
     const [activeItemsCount, setActiveItemsCount] = useState(0);
-    const [checkedState, setCheckedState] = useState([users]);
 
     const dispatch = useDispatch();
 
     const handleChange = (id, active) => {
         dispatch(updateUser(id, !active));
-        const updatedCheckedState = checkedState.map((item, index) =>
-            index === id ? !item : item
-        );
-
-        setCheckedState(updatedCheckedState);
     }
-
 
     useEffect(() => {
         dispatch(fetchUsers());
-    }, [])
+    }, [users])
+
     const renderUsers = users.map((user) => {
         const { id, email, phone, name, active, type } = user;
 
         return (
             <>
                 <tr key={id} className="border-y border-gray-light text-sm font-normal text-light-blue hover:bg-grey-100 hover:bg-opacity-30  cursor-pointer">
-                    <td className="py-4 inline-flex space-x-3" scope="row">
+                    <td className="py-4 inline-flex space-x-3">
                         <CheckBox setItemsCount={setActiveItemsCount} />
                         <div className="text-dark-blue font-medium">
 
@@ -56,7 +50,7 @@ const TableContent = () => {
                         <label className="inline-flex relative items-center cursor-pointer focus:outline-none">
                             <input type="checkbox"
                                 className="sr-only peer focus:outline-none"
-                                checked={checkedState[active]}
+                                checked={active}
                                 onChange={() => handleChange(id, active)}
                             />
                             <div
@@ -83,6 +77,7 @@ const TableContent = () => {
                     <img src="./assets/question.svg" alt="question make" />
                 </div>
             </div>
+
             <div className="overflow-x-auto relative my-6">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-auto hover:border-gray">
                     <thead className="text-xs text-light-blue uppercase border-y border-gray-light">
@@ -92,11 +87,11 @@ const TableContent = () => {
                                     <input
                                         id="default-checkbox"
                                         type="checkbox" value=""
+                                        disabled
                                         className="w-4 h-4 text-dark-blue bg-gray-100 rounded-0 border-gray-300 focus:ring-dark-blue dark:focus:ring-dark-blue dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray"
 
                                     />
                                 </div>
-
                                 <div> Type </div>
                             </th>
                             <th scope="col" className="py-3">
@@ -119,7 +114,6 @@ const TableContent = () => {
                     </tbody>
                 </table>
             </div>
-
         </>
     )
 }
